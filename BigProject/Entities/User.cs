@@ -19,6 +19,5 @@
         public ICollection<RefreshToken> refreshTokens { get; set; }
         public ICollection<EmailConfirm> emailConfirms { get; set; }
         public ICollection<Report> reports {  get; set; }
-        public ICollection<RewardDiscipline> rewardDisciplines { get; set; }
     }
 }

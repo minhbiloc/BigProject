@@ -93,13 +93,16 @@ namespace BigProject.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    MaSV = table.Column<int>(type: "int", nullable: false),
+                    MaTV = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Class = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Birthdate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RoleId = table.Column<int>(type: "int", nullable: false)
+                    RoleId = table.Column<int>(type: "int", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UrlAvatar = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -220,9 +223,9 @@ namespace BigProject.Migrations
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     RewardOrDiscipline = table.Column<bool>(type: "bit", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RewardOrDisciplineTypeId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    RewardDisciplineTypeId = table.Column<int>(type: "int", nullable: false)
+                    RewardDisciplineTypeId = table.Column<int>(type: "int", nullable: false),
+                    RecipientId = table.Column<int>(type: "int", nullable: false),
+                    ProposerId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -234,11 +237,17 @@ namespace BigProject.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_rewardDisciplines_users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_rewardDisciplines_users_ProposerId",
+                        column: x => x.ProposerId,
                         principalTable: "users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_rewardDisciplines_users_RecipientId",
+                        column: x => x.RecipientId,
+                        principalTable: "users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -277,14 +286,19 @@ namespace BigProject.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_rewardDisciplines_ProposerId",
+                table: "rewardDisciplines",
+                column: "ProposerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_rewardDisciplines_RecipientId",
+                table: "rewardDisciplines",
+                column: "RecipientId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_rewardDisciplines_RewardDisciplineTypeId",
                 table: "rewardDisciplines",
                 column: "RewardDisciplineTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_rewardDisciplines_UserId",
-                table: "rewardDisciplines",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_users_RoleId",

@@ -9,6 +9,24 @@ namespace BigProject.DataContext
         public AppDbContext()
         {
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<RewardDiscipline>()
+                .HasOne(x => x.Proposer)
+                .WithMany()
+                .HasForeignKey(x => x.ProposerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<RewardDiscipline>()
+                .HasOne(x => x.Recipient)
+                .WithMany()
+                .HasForeignKey(x => x.RecipientId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            base.OnModelCreating(modelBuilder);
+        }
+
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         public DbSet<EmailConfirm> emailConfirms { get; set; }
         public DbSet<Event> events { get; set; }

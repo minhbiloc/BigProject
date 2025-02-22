@@ -12,7 +12,6 @@ namespace BigProject.Service.Implement
     public class Service_Event : IService_Event
     {
         private readonly AppDbContext dbContext;
-
         private readonly ResponseObject<DTO_Event> responseObject;
         private readonly Converter_Event converter_Event;
         private readonly ResponseBase responseBase;
