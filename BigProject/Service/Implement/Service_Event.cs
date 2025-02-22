@@ -93,5 +93,7 @@ namespace BigProject.Service.Implement
             await dbContext.SaveChangesAsync();
             return responseObject.ResponseObjectSuccess("Thêm thành công!", converter_Event.EntityToDTO(event1));
         }
+
+        
     }
 }

@@ -27,7 +27,6 @@ namespace BigProject.Service.Implement
         private readonly ResponseObject<DTO_Token> responseObjectToken;
         private readonly IConfiguration configuration;
         private readonly ResponseObject<List<DTO_Register>> responseObjectList;
-
         private readonly ResponseObject<DTO_Login> responseObjectLogin;
         private readonly Converter_Login  converter_Login;
 
@@ -329,6 +328,11 @@ namespace BigProject.Service.Implement
                 return responseObjectList.ResponseObjectError(StatusCodes.Status404NotFound, "Bảng không tồn tại", null);
             }
             return responseObjectList.ResponseObjectSuccess("hiện thành công", listUserForRoleInput.Select(x => converter_Register.EntityToDTO(x)).ToList());
+        }
+
+        public IQueryable<DTO_Register> GetListMember(int pageSize, int pageNumber)
+        {
+            return dbContext.users.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(x => converter_Register.EntityToDTO(x));
         }
     }
 }

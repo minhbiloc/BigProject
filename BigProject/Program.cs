@@ -1,14 +1,14 @@
-﻿using BigProject.DataContext;
-using BigProject.Payload.Response;
-using BigProject.PayLoad.Converter;
-using BigProject.PayLoad.DTO;
-using BigProject.Service.Implement;
-using BigProject.Service.Interface;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using System.Text;
+﻿        using BigProject.DataContext;
+        using BigProject.Payload.Response;
+        using BigProject.PayLoad.Converter;
+        using BigProject.PayLoad.DTO;
+        using BigProject.Service.Implement;
+        using BigProject.Service.Interface;
+        using Microsoft.AspNetCore.Authentication.JwtBearer;
+        using Microsoft.EntityFrameworkCore;
+        using Microsoft.IdentityModel.Tokens;
+        using Microsoft.OpenApi.Models;
+        using System.Text;
 
         var builder = WebApplication.CreateBuilder(args);
         builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -69,9 +69,14 @@ using System.Text;
         builder.Services.AddScoped<Converter_Register>();
         builder.Services.AddScoped<Converter_Login>();
         builder.Services.AddScoped<Converter_Event>();
+        builder.Services.AddScoped<Converter_ReportStatistics>();
+        builder.Services.AddScoped<Converter_ReportType>();
+
 
         builder.Services.AddScoped<IService_Authentic, Service_Authentic>();
         builder.Services.AddScoped<IService_Event, Service_Event>();
+        builder.Services.AddScoped<IService_ReportStatistics, Service_ReportStatistics>();
+        builder.Services.AddScoped<IService_ReportType, Service_ReportType>();
 
 
         builder.Services.AddScoped<ResponseObject<DTO_Register>>(); 
@@ -79,9 +84,10 @@ using System.Text;
         builder.Services.AddScoped<ResponseObject<DTO_Token>>();
         builder.Services.AddScoped<ResponseObject<List<DTO_Register>>>();
         builder.Services.AddScoped<ResponseObject<DTO_Event>>();
+        builder.Services.AddScoped<ResponseObject<DTO_ReportStatistics>>();
+        builder.Services.AddScoped<ResponseObject<DTO_ReportType>>();
 
-
-builder.Services.AddControllers();
+        builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Logging.AddConsole();
         builder.Logging.AddDebug();

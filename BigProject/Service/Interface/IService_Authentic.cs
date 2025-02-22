@@ -17,5 +17,7 @@ namespace BigProject.Service.Interface
         ResponseBase ChangePassword(Request_ChangePassword requset);
 
         ResponseObject<List<DTO_Register>> Authorization(string KeyRole);
+
+        IQueryable<DTO_Register> GetListMember(int pageSize, int pageNumber);
     }
 }

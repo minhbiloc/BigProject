@@ -1,4 +1,5 @@
-﻿using BigProject.PayLoad.Request;
+﻿using BigProject.Entities;
+using BigProject.PayLoad.Request;
 using BigProject.Service.Implement;
 using BigProject.Service.Interface;
 using Microsoft.AspNetCore.Http;
@@ -48,6 +49,11 @@ namespace BigProject.Controllers
         public IActionResult ChangePassword(Request_ChangePassword request)
         {
             return Ok(service_Authentic.ChangePassword(request));
+        }
+        [HttpGet("Xem danh sách")]
+        public IActionResult GetListMember(int pageSize = 10, int pageNumber = 1)
+        {
+            return Ok(service_Authentic.GetListMember(pageSize, pageNumber));
         }
     }
     
