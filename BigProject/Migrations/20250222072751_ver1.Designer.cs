@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BigProject.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250220083451_ve")]
-    partial class ve
+    [Migration("20250222072751_ver1")]
+    partial class ver1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -220,27 +220,29 @@ namespace BigProject.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ProposerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RecipientId")
+                        .HasColumnType("int");
+
                     b.Property<int>("RewardDisciplineTypeId")
                         .HasColumnType("int");
 
                     b.Property<bool>("RewardOrDiscipline")
                         .HasColumnType("bit");
 
-                    b.Property<int>("RewardOrDisciplineTypeId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("RewardDisciplineTypeId");
+                    b.HasIndex("ProposerId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("RecipientId");
+
+                    b.HasIndex("RewardDisciplineTypeId");
 
                     b.ToTable("rewardDisciplines");
                 });
@@ -404,21 +406,29 @@ namespace BigProject.Migrations
 
             modelBuilder.Entity("BigProject.Entities.RewardDiscipline", b =>
                 {
+                    b.HasOne("BigProject.Entities.User", "Proposer")
+                        .WithMany()
+                        .HasForeignKey("ProposerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("BigProject.Entities.User", "Recipient")
+                        .WithMany()
+                        .HasForeignKey("RecipientId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("BigProject.Entities.RewardDisciplineType", "RewardDisciplineType")
                         .WithMany()
                         .HasForeignKey("RewardDisciplineTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BigProject.Entities.User", "User")
-                        .WithMany("rewardDisciplines")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Proposer");
+
+                    b.Navigation("Recipient");
 
                     b.Navigation("RewardDisciplineType");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("BigProject.Entities.User", b =>
@@ -444,8 +454,6 @@ namespace BigProject.Migrations
                     b.Navigation("refreshTokens");
 
                     b.Navigation("reports");
-
-                    b.Navigation("rewardDisciplines");
                 });
 #pragma warning restore 612, 618
         }

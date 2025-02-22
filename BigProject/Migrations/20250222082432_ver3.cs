@@ -10,20 +10,20 @@ namespace BigProject.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "FullName",
-                table: "users",
-                type: "nvarchar(max)",
+            migrationBuilder.AddColumn<bool>(
+                name: "RewardOrDiscipline",
+                table: "rewardDisciplineTypes",
+                type: "bit",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: false);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "FullName",
-                table: "users");
+                name: "RewardOrDiscipline",
+                table: "rewardDisciplineTypes");
         }
     }
 }
