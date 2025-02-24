@@ -10,7 +10,7 @@ namespace BigProject.Service.Interface
 
         ResponseObject<DTO_Register> ForgotPassword(Request_forgot request);
 
-        ResponseObject<DTO_Login> Login(Request_Login request);
+        ResponseObject<DTO_Token> Login(Request_Login request);
 
         ResponseBase Activate(string Opt);
 

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BigProject.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class Controller_Event : ControllerBase

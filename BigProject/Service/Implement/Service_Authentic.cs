@@ -80,29 +80,29 @@ namespace BigProject.Service.Implement
             return responseObject.ResponseObjectSuccess("Đã gửi mật khẩu qua Email ", null);
         }
 
-        public ResponseObject<DTO_Login> Login(Request_Login request)
+        public ResponseObject<DTO_Token> Login(Request_Login request)
         {
             var user = dbContext.users.FirstOrDefault(x => x.Username == request.UserName || x.Email == request.UserName ||  x.MaTV == request.UserName);
             if (user == null)
             {
-                return responseObjectLogin.ResponseObjectError(404, "Tài khoản không tồn tại !", null);
+                return responseObjectToken.ResponseObjectError(404, "Tài khoản không tồn tại !", null);
             }
            
             if (!BCrypt.Net.BCrypt.Verify(request.Password, user.Password))
             {
-                return responseObjectLogin.ResponseObjectError(404, "Sai mk !", null);
+                return responseObjectToken.ResponseObjectError(404, "Sai mk !", null);
             }
 
 
             var comfimEmail = dbContext.emailConfirms.FirstOrDefault(x => x.UserId == user.Id);
             if (comfimEmail.IsConfirmed == false)
             {
-                return responseObjectLogin.ResponseObjectError(404, "Tài khoản chưa được kích hoạt !", null);
+                return responseObjectToken.ResponseObjectError(404, "Tài khoản chưa được kích hoạt !", null);
             }
 
 
 
-            return responseObjectLogin.ResponseObjectSuccess("đăng nhập email thành công ", converter_Login.EntityToDTO(user));
+            return responseObjectToken.ResponseObjectSuccess("đăng nhập email thành công ", GenerateAccessToken(user));
 
         }
 
